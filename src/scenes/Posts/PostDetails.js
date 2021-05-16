@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle } from 'reactstrap'
 import { formatDistance } from 'date-fns'
+import { addToViewedPostsList } from '../../actions/postActions'
 
 const PostDetails = (props) => {
-  const { post } = props
+  const { post, addToViewedPostsList } = props
 
   const getFormattedDate = (date) => {
     if (!date) return null
@@ -18,6 +20,12 @@ const PostDetails = (props) => {
     }
     return formattedPublishedDate
   }
+
+  useEffect(() => {
+    if (post) {
+      addToViewedPostsList(post.id)
+    }
+  }, [post, addToViewedPostsList])
 
   return (
     <Card className='h-100 shadow' style={{ overflowY: 'hidden' }}>
@@ -38,4 +46,12 @@ const PostDetails = (props) => {
   )
 }
 
-export default PostDetails
+const mapStateToProps = (state) => {
+  return {}
+}
+
+const mapDispatchToProps = {
+  addToViewedPostsList
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetails)

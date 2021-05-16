@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import { Loading } from '../../components'
 import { PostPreview, PostDetails } from '../Posts'
 import { Button, Alert } from 'reactstrap'
 import { useWindowSize } from '../../hooks'
 import { useHistory } from 'react-router-dom'
-import PostsDataService from '../../services/posts.service'
-
+import { getPostsList } from '../../asyncActions/postAsyncActions'
 // import posts from '../posts.json'
 
-const LIMIT = 10
 // TO DO - Review breakpoint values / col-sm original value is 576px
+const LIMIT = 10
 const COL_SM_BREAKPOINT = 766
 
-const Posts = () => {
+const Posts = (props) => {
+  // Props
+  const { postsObj, getPostsList } = props
+
   // State
   const [currentPage, setCurrentPage] = useState(1)
-  const [buttonPreviousDisabled, setButtonPreviousDisabled] = useState(false)
-  const [buttonNextDisabled, setButtonNextDisabled] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-  const [posts, setPosts] = useState(null)
   const [selectedPost, setSelectedPost] = useState(null)
 
   // Hooks
   const history = useHistory()
   const windowSize = useWindowSize()
 
+  const totalPages = Math.ceil((postsObj.data || {}).total / LIMIT)
   const isMobile = windowSize.width <= COL_SM_BREAKPOINT
+  const buttonPreviousDisabled = currentPage === 1
+  const buttonNextDisabled = currentPage + 1 === totalPages
 
   const onPreviewClick = (value) => {
     if (isMobile) {
@@ -37,40 +38,8 @@ const Posts = () => {
   }
 
   useEffect(() => {
-    setLoading(true)
-
-    // const mappedPosts = posts.data.map((post, key) => {
-    //   return {
-    //     owner: post.owner,
-    //     id: post.id,
-    //     image: post.image,
-    //     publishDate: post.publishDate,
-    //     text: post.text,
-    //     tags: post.tags,
-    //     link: post.link,
-    //     likes: post.likes
-    //   }
-    // })
-    // setData(mappedPosts)
-    // setLoading(false)
-
-    PostsDataService.getAll(currentPage)
-      .then(({ data }) => {
-        setPosts({ items: data.data, total: data.total })
-        setLoading(false)
-        setButtonPreviousDisabled(currentPage === 1)
-        const totalPages = Math.ceil(data.total / LIMIT)
-        setButtonNextDisabled(currentPage + 1 === totalPages)
-      })
-      .catch(() => {
-        setError(true)
-        setLoading(false)
-      })
-      .finally(() => {
-        setError(false)
-        setLoading(false)
-      })
-  }, [currentPage])
+    getPostsList(currentPage)
+  }, [currentPage, getPostsList])
 
   return (
     <div className='row h-100'>
@@ -80,8 +49,9 @@ const Posts = () => {
             <Button
               color='secondary'
               className='m-2'
-              disabled={buttonPreviousDisabled || loading}
+              disabled={buttonPreviousDisabled || postsObj.loading}
               onClick={() => {
+                setSelectedPost()
                 setCurrentPage(currentPage - 1)
               }}
             >
@@ -90,19 +60,27 @@ const Posts = () => {
             <Button
               color='secondary'
               className='m-2'
-              disabled={buttonNextDisabled || loading}
+              disabled={buttonNextDisabled || postsObj.loading}
               onClick={() => {
+                setSelectedPost()
                 setCurrentPage(currentPage + 1)
               }}
             >
               {'>>>'}
             </Button>
           </div>
-          {loading && <div className='d-flex justify-content-center align-items-center h-100'><Loading /></div>}
-          {!loading && error && <Alert color='danger'>Oops... something went wrong.</Alert>}
-          {!loading && !error && (
-            posts.items.map((post, index) => {
-              return <PostPreview key={index} post={post} onPreviewClick={onPreviewClick} />
+          {postsObj.loading && <div className='d-flex justify-content-center align-items-center h-100'><Loading /></div>}
+          {!postsObj.loading && postsObj.error && <Alert color='danger'>Oops... something went wrong.</Alert>}
+          {!postsObj.loading && !postsObj.error && postsObj.data && (
+            postsObj.data.items.map((post, index) => {
+              return (
+                <PostPreview
+                  key={index}
+                  post={post}
+                  onPreviewClick={onPreviewClick}
+                  itemRead={postsObj.data.itemsRead.some(x => x.id === post.id)}
+                />
+              )
             })
           )}
         </div>
@@ -112,4 +90,14 @@ const Posts = () => {
   )
 }
 
-export default Posts
+const mapStateToProps = (state) => {
+  return {
+    postsObj: state.posts
+  }
+}
+
+const mapDispatchToProps = {
+  getPostsList
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts)
