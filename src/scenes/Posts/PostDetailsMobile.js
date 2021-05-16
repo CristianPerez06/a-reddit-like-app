@@ -3,7 +3,7 @@ import { Link, useRouteMatch } from 'react-router-dom'
 import { Loading } from '../../components'
 import { PostDetails } from '../../scenes/Posts'
 import { Button, Alert } from 'reactstrap'
-import PostsDataService from '../../services/posts.service'
+import PostDataService from '../../services/post.service'
 
 const PostDetailsMobile = (props) => {
   // State
@@ -18,7 +18,7 @@ const PostDetailsMobile = (props) => {
   useEffect(() => {
     setLoading(true)
 
-    PostsDataService.get(postId)
+    PostDataService.get(postId)
       .then(({ data }) => {
         setPost(data)
       })

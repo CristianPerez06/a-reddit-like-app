@@ -8,7 +8,7 @@ import {
 import { formatDistance } from 'date-fns'
 
 const PostPreview = (props) => {
-  const { post, onPreviewClick } = props
+  const { post, onPreviewClick, itemRead = false } = props
 
   const formattedPublishedDate = formatDistance(
     new Date(post.publishDate),
@@ -19,7 +19,7 @@ const PostPreview = (props) => {
   return (
     <Card className='shadow m-1' onClick={() => { onPreviewClick(post) }} style={{ cursor: 'pointer' }}>
       <CardBody>
-        {!post.read && (
+        {!itemRead && (
           <span className='badge badge-secondary float-right' style={{ fontSize: 10 + 'px' }}>
               Unread
           </span>
