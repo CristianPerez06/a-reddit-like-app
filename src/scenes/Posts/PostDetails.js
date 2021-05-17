@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Card, CardBody, CardTitle } from 'reactstrap'
+import { Card, CardBody, CardTitle, CardImg } from 'reactstrap'
 import { formatDistance } from 'date-fns'
 import { addToViewedPostsList } from '../../actions/postActions'
 
@@ -30,17 +30,19 @@ const PostDetails = (props) => {
   return (
     <Card className='h-100 shadow' style={{ overflowY: 'hidden' }}>
       {post && (
-        <CardBody>
-          <span className='d-inline-block'>
-            Posted by {`${post.owner.firstName} ${post.owner.lastName} - ${getFormattedDate((post || {}).publishDate)} `}
-          </span>
-          <CardTitle tag='h2' className='pt-2 pb-2'>
-            {post.text}
-          </CardTitle>
-          <div className='image-container'>
-            <img src={post.image} className='h-100 w-100' alt={post.id} />
+        <div>
+          <CardBody>
+            <span className='posted-by-and-date d-inline-block'>
+              Posted by {`${post.owner.firstName} ${post.owner.lastName} - ${getFormattedDate((post || {}).publishDate)} `}
+            </span>
+            <CardTitle className='pt-2 pb-2' tag='h2'>
+              {post.text}
+            </CardTitle>
+          </CardBody>
+          <div className='image-container d-flex justify-content-center'>
+            <CardImg src={post.image} alt={post.id} style={{ maxWidth: 470 + 'px' }} />
           </div>
-        </CardBody>
+        </div>
       )}
     </Card>
   )

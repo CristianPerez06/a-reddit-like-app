@@ -21,7 +21,7 @@ export const getPostsListSuccess = res => {
 export const getPostsListFailure = error => {
   return {
     type: GET_POSTS_LIST_FAILURE,
-    payload: { error }
+    payload: { ...error }
   }
 }
 

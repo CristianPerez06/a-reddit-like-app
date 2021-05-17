@@ -20,18 +20,18 @@ const PostPreview = (props) => {
     <Card className='shadow m-1' onClick={() => { onPreviewClick(post) }} style={{ cursor: 'pointer' }}>
       <CardBody>
         {!itemRead && (
-          <span className='badge badge-secondary float-right' style={{ fontSize: 10 + 'px' }}>
+          <span className='unread-badge badge badge-secondary float-right' style={{ fontSize: 10 + 'px' }}>
               Unread
           </span>
         )}
 
-        <span className='d-inline-block' style={{ fontSize: 10 + 'px' }}>
+        <span className='posted-by-and-date d-inline-block' style={{ fontSize: 10 + 'px' }}>
             Posted by {`${post.owner.firstName} ${post.owner.lastName} - ${formattedPublishedDate} `}
         </span>
-        <CardTitle tag='h5'>
+        <CardTitle className='title' tag='h5'>
           {post.text}
         </CardTitle>
-        <CardImg variant='bottom' src={post.image} />
+        <CardImg className='image-preview' variant='bottom' src={post.image} />
       </CardBody>
     </Card>
   )
