@@ -41,7 +41,7 @@ const PostDetailsMobile = (props) => {
         </Link>
       </div>
       {loading && <Loading />}
-      {!loading && error && <Alert color='danger'>Oops... something went wrong.</Alert>}
+      {!loading && error && <Alert color='danger' className='pt-3'>Oops... something went wrong.</Alert>}
       {!loading && !error && <PostDetails post={post} />}
     </div>
   )

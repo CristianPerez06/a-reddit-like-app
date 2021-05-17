@@ -1,6 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
 import PostPreview from './PostPreview'
+import configureStore from 'redux-mock-store'
+
+const mockStore = configureStore([])
 
 const post = {
   id: '1234',
@@ -10,10 +14,22 @@ const post = {
   owner: { id: '1234', email: 'john.doe@mail.com', picture: 'owner-image.jpg', firstName: 'John', lastName: 'Doe' }
 }
 
-describe('In Post preview section', () => {
+const store = mockStore({
+  data: {
+    items: [],
+    total: 0,
+    itemsRead: [],
+    itemsDismissed: []
+  }
+})
 
+describe('In Post preview section', () => {
   describe('when Post is unread', () => {
-    const wrapper = shallow(<PostPreview post={post} onPreviewClick={() => {}} itemRead={false} />)
+    const wrapper = mount(
+      <Provider store={store}>
+        <PostPreview post={post} onPreviewClick={() => {}} itemRead={false} />
+      </Provider>
+    )
 
     it('should show the Unread badge', () => {
       const unreadBadgeWrapper = wrapper.find('.unread-badge')
@@ -22,7 +38,11 @@ describe('In Post preview section', () => {
   })
 
   describe('when Post is read', () => {
-    const wrapper = shallow(<PostPreview post={post} onPreviewClick={() => {}} itemRead />)
+    const wrapper = mount(
+      <Provider store={store}>
+        <PostPreview post={post} onPreviewClick={() => {}} itemRead />
+      </Provider>
+    )
 
     it('should show not the Unread badge', () => {
       const readBadgeWrapper = wrapper.find('.unread-badge')
@@ -31,18 +51,22 @@ describe('In Post preview section', () => {
   })
 
   describe('In all cases', () => {
-    const wrapper = shallow(<PostPreview post={post} onPreviewClick={() => {}} itemRead={false} />)
+    const wrapper = mount(
+      <Provider store={store}>
+        <PostPreview post={post} onPreviewClick={() => {}} itemRead={false} />
+      </Provider>
+    )
 
     it('should show a title', () => {
-      const title = wrapper.find('.title')
-      expect(title.dive().text()).toEqual('the post title')
+      const title = wrapper.find('.card-title')
+      expect(title.text()).toEqual('the post title')
     })
     it('should show posted date and owner info', () => {
       const title = wrapper.find('.posted-by-and-date')
       expect(title.text()).toEqual('Posted by John Doe - 12 months ago ')
     })
     it('should show an image', () => {
-      const imageContainer = wrapper.find('.image-preview')
+      const imageContainer = wrapper.find('CardImg')
       expect(imageContainer.length).toEqual(1)
     })
   })

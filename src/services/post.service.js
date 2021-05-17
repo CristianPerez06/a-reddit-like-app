@@ -8,7 +8,7 @@ class PostDataService {
   }
 
   get (id) {
-    return http.get(`/posts/${id}`)
+    return http.get(`/post/${id}`)
   }
 }
 
