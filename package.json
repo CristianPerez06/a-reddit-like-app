@@ -1,5 +1,5 @@
 {
-  "name": "challenge",
+  "name": "a-reddit-like-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,6 +15,7 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-transition-group": "^4.4.1",
     "reactstrap": "^8.9.0",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",

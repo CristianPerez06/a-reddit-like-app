@@ -19,7 +19,8 @@ describe('In Post details section', () => {
     data: {
       items: [],
       total: 0,
-      itemsRead: []
+      itemsRead: [],
+      itemsDismissed: []
     }
   })
 
@@ -33,10 +34,7 @@ describe('In Post details section', () => {
     const title = wrapper.find('.card-title')
     expect(title.text()).toEqual('the post title')
   })
-  it('should show posted date and owner info', () => {
-    const title = wrapper.find('.posted-by-and-date')
-    expect(title.text()).toEqual('Posted by John Doe - 12 months ago ')
-  })
+
   it('should show an image', () => {
     const imageContainer = wrapper.find('.image-container')
     expect(imageContainer.length).toEqual(1)

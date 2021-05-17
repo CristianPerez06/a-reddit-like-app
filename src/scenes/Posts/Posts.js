@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import { Loading } from '../../components'
 import { PostPreview, PostDetails } from '../Posts'
 import { Button, Alert } from 'reactstrap'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { useWindowSize } from '../../hooks'
 import { useHistory } from 'react-router-dom'
+import { addToViewedPostsList, dismissAllPosts } from '../../actions/postActions'
 import { getPostsList } from '../../asyncActions/postAsyncActions'
+import './styles.css'
 
 // TO DO - Review breakpoint values / col-sm original value is 576px
 const LIMIT = 10
@@ -13,7 +16,10 @@ const COL_SM_BREAKPOINT = 766
 
 const Posts = (props) => {
   // Props
-  const { postsObj, getPostsList } = props
+  const { postsObj, getPostsList, addToViewedPostsList, dismissAllPosts } = props
+  const { loading, error, allPostsDismissed, data } = postsObj
+  const { items, itemsRead } = data
+  const itemsToShow = items.filter(x => !postsObj.data.itemsDismissed.some(y => y.id === x.id))
 
   // State
   const [currentPage, setCurrentPage] = useState(1)
@@ -29,6 +35,7 @@ const Posts = (props) => {
   const buttonNextDisabled = currentPage + 1 === totalPages
 
   const onPreviewClick = (value) => {
+    addToViewedPostsList(value.id)
     if (isMobile) {
       history.push(`/posts/${value.id}`)
     } else {
@@ -48,7 +55,7 @@ const Posts = (props) => {
             <Button
               color='secondary'
               className='m-2'
-              disabled={buttonPreviousDisabled || postsObj.loading}
+              disabled={buttonPreviousDisabled || loading}
               onClick={() => {
                 setSelectedPost()
                 setCurrentPage(currentPage - 1)
@@ -59,7 +66,17 @@ const Posts = (props) => {
             <Button
               color='secondary'
               className='m-2'
-              disabled={buttonNextDisabled || postsObj.loading}
+              disabled={loading || allPostsDismissed}
+              onClick={() => {
+                dismissAllPosts()
+              }}
+            >
+              Dismiss all
+            </Button>
+            <Button
+              color='secondary'
+              className='m-2'
+              disabled={buttonNextDisabled || loading}
               onClick={() => {
                 setSelectedPost()
                 setCurrentPage(currentPage + 1)
@@ -68,20 +85,24 @@ const Posts = (props) => {
               {'>>>'}
             </Button>
           </div>
-          {postsObj.loading && <div className='d-flex justify-content-center align-items-center h-100'><Loading /></div>}
-          {!postsObj.loading && postsObj.error && <Alert color='danger'>Oops... something went wrong.</Alert>}
-          {!postsObj.loading && !postsObj.error && postsObj.data && (
-            postsObj.data.items.map((post, index) => {
-              return (
-                <PostPreview
-                  key={index}
-                  post={post}
-                  onPreviewClick={onPreviewClick}
-                  itemRead={postsObj.data.itemsRead.some(x => x.id === post.id)}
-                />
-              )
-            })
+          {loading && <div className='d-flex justify-content-center align-items-center h-100'><Loading /></div>}
+          {!loading && error && <Alert color='danger' className='mt-3'>Oops... something went wrong.</Alert>}
+          {!loading && !error && itemsToShow && !allPostsDismissed && (
+            <TransitionGroup>
+              {itemsToShow.map((post) => {
+                return (
+                  <CSSTransition key={post.id} timeout={700} classNames='item'>
+                    <PostPreview
+                      post={post}
+                      onPreviewClick={onPreviewClick}
+                      itemRead={itemsRead.some(x => x.id === post.id)}
+                    />
+                  </CSSTransition>
+                )
+              })}
+            </TransitionGroup>
           )}
+          {allPostsDismissed && <Alert color='warning' className='mt-3'>There's nothing to show.</Alert>}
         </div>
       </div>
       {!isMobile && <div className='col-md-8 col-xs-12 mh-100'><PostDetails post={selectedPost} /></div>}
@@ -96,7 +117,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  getPostsList
+  getPostsList,
+  addToViewedPostsList,
+  dismissAllPosts
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts)
