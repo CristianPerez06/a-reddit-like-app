@@ -6,7 +6,6 @@ import { Button, Alert } from 'reactstrap'
 import { useWindowSize } from '../../hooks'
 import { useHistory } from 'react-router-dom'
 import { getPostsList } from '../../asyncActions/postAsyncActions'
-// import posts from '../posts.json'
 
 // TO DO - Review breakpoint values / col-sm original value is 576px
 const LIMIT = 10

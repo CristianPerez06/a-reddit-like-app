@@ -21,13 +21,12 @@ const PostDetailsMobile = (props) => {
     PostDataService.get(postId)
       .then(({ data }) => {
         setPost(data)
+        setError(false)
       })
       .catch(() => {
         setError(true)
-        setLoading(false)
       })
       .finally(() => {
-        setError(false)
         setLoading(false)
       })
   }, [postId])
