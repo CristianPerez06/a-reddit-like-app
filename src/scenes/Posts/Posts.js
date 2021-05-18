@@ -49,12 +49,24 @@ const Posts = (props) => {
 
   return (
     <div className='row h-100'>
-      <div className='col-md-4 col-xs-12 h-100' style={{ overflowX: 'hidden', overflowY: 'auto' }}>
+      <div className='col-md-3 col-xs-12 h-100' style={{ overflowX: 'hidden', overflowY: 'auto' }}>
         <div className='post-previews-list h-100'>
+          <div className='d-flex justify-content-center'>
+            <Button
+              color='secondary'
+              className='m-2 w-100'
+              disabled={loading || allPostsDismissed}
+              onClick={() => {
+                dismissAllPosts()
+              }}
+            >
+              Dismiss all
+            </Button>
+          </div>
           <div className='pagination d-flex justify-content-between'>
             <Button
               color='secondary'
-              className='m-2'
+              className='m-2 w-100'
               disabled={buttonPreviousDisabled || loading}
               onClick={() => {
                 setSelectedPost()
@@ -65,17 +77,7 @@ const Posts = (props) => {
             </Button>
             <Button
               color='secondary'
-              className='m-2'
-              disabled={loading || allPostsDismissed}
-              onClick={() => {
-                dismissAllPosts()
-              }}
-            >
-              Dismiss all
-            </Button>
-            <Button
-              color='secondary'
-              className='m-2'
+              className='m-2 w-100'
               disabled={buttonNextDisabled || loading}
               onClick={() => {
                 setSelectedPost()
@@ -105,7 +107,7 @@ const Posts = (props) => {
           {allPostsDismissed && <Alert color='warning' className='mt-3'>There's nothing to show.</Alert>}
         </div>
       </div>
-      {!isMobile && <div className='col-md-8 col-xs-12 mh-100'><PostDetails post={selectedPost} /></div>}
+      {!isMobile && <div className='col-md-9 col-xs-12 mh-100'><PostDetails post={selectedPost} /></div>}
     </div>
   )
 }
