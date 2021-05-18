@@ -48,7 +48,7 @@ const Posts = (props) => {
   }, [currentPage, getPostsList])
 
   return (
-    <div className='row h-100'>
+    <div className='row h-100 w-100'>
       <div className='col-md-3 col-xs-12 h-100' style={{ overflowX: 'hidden', overflowY: 'auto' }}>
         <div className='post-previews-list h-100'>
           <div className='d-flex justify-content-center'>
