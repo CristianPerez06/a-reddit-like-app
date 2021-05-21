@@ -14,9 +14,9 @@
   - Dismiss All Button (animations not included)
 
 ## Some notes
-  - The app uses doesn't consume the RedditAPI (since its uses OAuth which is a little bit more complex to implement). Instead it uses DummyAPI which provides static content that can be used for this purpose.
+  - The app uses doesn't consume the RedditAPI (since it uses OAuth which is a little bit more complex to implement). Instead it consumes DummyAPI which provides static content that can be used for this purpose.
   - Some more tests should be added to have good coverage.
-  - Image container on Post Details has some style issues that need to be fixed in the future.
+  - Image container in Post Details has some style issues that need to be fixed in the future.
 
  ## Demo
  https://a-reddit-like-app.herokuapp.com/
