@@ -43,6 +43,10 @@ const Posts = (props) => {
     }
   }
 
+  const onSubmitClick = (value) => {
+    // ......
+  }
+
   useEffect(() => {
     getPostsList(currentPage)
   }, [currentPage, getPostsList])
