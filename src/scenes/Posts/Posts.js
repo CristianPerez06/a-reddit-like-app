@@ -77,7 +77,7 @@ const Posts = (props) => {
                 setCurrentPage(currentPage - 1)
               }}
             >
-              {'<<<'}
+              PREVIOUS
             </Button>
             <Button
               color='secondary'
@@ -88,7 +88,7 @@ const Posts = (props) => {
                 setCurrentPage(currentPage + 1)
               }}
             >
-              {'>>>'}
+              NEXT
             </Button>
           </div>
           {loading && <div className='d-flex justify-content-center align-items-center h-100'><Loading /></div>}
