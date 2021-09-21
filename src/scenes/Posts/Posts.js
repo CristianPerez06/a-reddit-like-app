@@ -47,6 +47,10 @@ const Posts = (props) => {
     // ......
   }
 
+  const onCancelClick = (value) => {
+    // ......
+  }
+
   useEffect(() => {
     getPostsList(currentPage)
   }, [currentPage, getPostsList])
