@@ -15,6 +15,7 @@
 
 ## Some notes
   - The app uses doesn't consume the RedditAPI (since it uses OAuth which is a little bit more complex to implement). Instead it consumes DummyAPI which provides static content that can be used for this purpose.
+  - To use DummyAPI it is necesary to get an `APP ID` (you can get one by registering in https://dummyapi.io/)
   - Some more tests should be added to have good coverage.
   - Image container in Post Details has some style issues that need to be fixed in the future.
 
