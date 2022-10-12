@@ -19,6 +19,3 @@
   - Some more tests should be added to have good coverage.
   - Image container in Post Details has some style issues that need to be fixed in the future.
 
- ## Demo
- https://a-reddit-like-app.herokuapp.com/
-
