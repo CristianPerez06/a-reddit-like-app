@@ -1,21 +1,22 @@
 # a-reddit-like-app
+An app that emulates some of Reddit's behavior.
 
-## Features included:
-  - Pagination support
-  - App state-preservation/restoration
-  - Indicator of unread/read post
-  - Dismiss Post Button (animations included)
-  - Dismiss All Button
-  - Support split layout (left side: all posts / right side: detail post)
-  - Responsive design
+## Tech stack
 
-## Features not included:
-  - Saving pictures in the picture gallery
-  - Dismiss All Button (animations not included)
+### Frontend
 
-## Some notes
-  - The app uses doesn't consume the RedditAPI (since it uses OAuth which is a little bit more complex to implement). Instead it consumes DummyAPI which provides static content that can be used for this purpose.
-  - To use DummyAPI it is necesary to get an `APP ID` (you can get one by registering in https://dummyapi.io/)
-  - Some more tests should be added to have good coverage.
-  - Image container in Post Details has some style issues that need to be fixed in the future.
+- Javascript
+- ReactJS
+- axios
+- bootstrap
+- reactstrap
+- date-fns
+- react-redux
+- redux-thunk
+- react-transition-group
+
+## How to execute the app
+
+1. `npm install`
+3. `npm start`
 
