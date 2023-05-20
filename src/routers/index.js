@@ -1,1 +1,1 @@
-export { default as MainRouter } from './MainRouter.js'
+export { default as MainRouter } from "./MainRouter.js"

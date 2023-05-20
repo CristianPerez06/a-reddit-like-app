@@ -1,13 +1,13 @@
-import http from '../http-common'
+import http from "../http-common"
 
 const LIMIT = 10
 
 class PostDataService {
-  getAll (page) {
+  getAll(page) {
     return http.get(`/post?page=${page}&limit=${LIMIT}`)
   }
 
-  get (id) {
+  get(id) {
     return http.get(`/post/${id}`)
   }
 }

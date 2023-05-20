@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
-import posts from './postReducer'
+import { combineReducers } from "redux"
+import posts from "./postReducer"
 
 // to combine all reducers together
 const appReducer = combineReducers({
-  posts
+  posts,
 })
 
 export default appReducer
