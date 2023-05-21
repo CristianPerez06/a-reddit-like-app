@@ -49,30 +49,30 @@ const Posts = (props) => {
     }
   }
 
-  const onSubmitClick = (value) => {
-    // ......
-  }
-
-  const onCancelClick = (value) => {
-    // ......
-  }
-
   useEffect(() => {
     getPostsList(currentPage)
   }, [currentPage, getPostsList])
 
+  useEffect(() => {
+    if (items.length !== 0) {
+      addToViewedPostsList(items[0].id)
+    }
+  }, [addToViewedPostsList, items])
+
   return (
-    <div className="row h-100 w-100">
+    <div className="row h-100 w-75 m-0 pt-2 pb-2">
       <div
-        className="col-md-3 col-xs-12 h-100"
+        className="col-md-4 col-xs-12 h-100"
         style={{ overflowX: "hidden", overflowY: "auto" }}
       >
         <div className="post-previews-list h-100">
           <div className="d-flex justify-content-center">
             <Button
-              color="secondary"
+              color="primary"
               className="m-2 w-100"
-              disabled={loading || allPostsDismissed}
+              disabled={
+                loading || allPostsDismissed || itemsToShow.length === 0
+              }
               onClick={() => {
                 dismissAllPosts()
               }}
@@ -82,26 +82,30 @@ const Posts = (props) => {
           </div>
           <div className="pagination d-flex justify-content-between">
             <Button
-              color="secondary"
+              color="primary"
               className="m-2 w-100"
-              disabled={buttonPreviousDisabled || loading}
+              disabled={
+                buttonPreviousDisabled || loading || itemsToShow.length === 0
+              }
               onClick={() => {
                 setSelectedPost()
                 setCurrentPage(currentPage - 1)
               }}
             >
-              PREVIOUS
+              {"<"}
             </Button>
             <Button
-              color="secondary"
+              color="primary"
               className="m-2 w-100"
-              disabled={buttonNextDisabled || loading}
+              disabled={
+                buttonNextDisabled || loading || itemsToShow.length === 0
+              }
               onClick={() => {
                 setSelectedPost()
                 setCurrentPage(currentPage + 1)
               }}
             >
-              NEXT
+              {">"}
             </Button>
           </div>
           {loading && (
@@ -111,7 +115,8 @@ const Posts = (props) => {
           )}
           {!loading && error && (
             <Alert color="danger" className="mt-3">
-              Oops... something went wrong.
+              Oops... something went wrong. Please refresh the page and try
+              again
             </Alert>
           )}
           {!loading && !error && itemsToShow && !allPostsDismissed && (
@@ -129,16 +134,16 @@ const Posts = (props) => {
               })}
             </TransitionGroup>
           )}
-          {allPostsDismissed && (
+          {(allPostsDismissed || itemsToShow.length === 0) && !error && (
             <Alert color="warning" className="mt-3">
-              There's nothing to show.
+              There's nothing to show
             </Alert>
           )}
         </div>
       </div>
       {!isMobile && (
-        <div className="col-md-9 col-xs-12 mh-100">
-          <PostDetails post={selectedPost} />
+        <div className="col-md-8 col-xs-12 mh-100">
+          <PostDetails post={selectedPost || itemsToShow[0]} />
         </div>
       )}
     </div>

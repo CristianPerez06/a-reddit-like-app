@@ -28,7 +28,7 @@ const PostPreview = (props) => {
       >
         {!itemRead && (
           <span
-            className="unread-badge d-inline-block badge badge-secondary float-right"
+            className="unread-badge d-inline-block badge badge-warning float-right"
             style={{ fontSize: 10 + "px" }}
           >
             Unread
@@ -42,10 +42,15 @@ const PostPreview = (props) => {
           {`${post.owner.firstName} ${post.owner.lastName} - ${formattedPublishedDate} `}
         </span>
         <CardTitle tag="h5">{post.text}</CardTitle>
-        <CardImg variant="bottom" src={post.image} />
+        <CardImg
+          className="rounded"
+          variant="bottom"
+          src={post.image}
+          style={{ objectFit: "cover" }}
+        />
       </CardBody>
       <Button
-        color="secondary"
+        color={"danger"}
         className="m-2"
         onClick={() => {
           addToDismissedPostsList(post.id)

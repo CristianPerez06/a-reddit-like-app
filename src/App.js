@@ -5,7 +5,7 @@ import store from "./store"
 
 const App = () => {
   return (
-    <div className="App w-100 h-100 p-2">
+    <div className="app w-100 h-100 d-flex justify-content-center">
       <Provider store={store}>
         <MainRouter />
       </Provider>
