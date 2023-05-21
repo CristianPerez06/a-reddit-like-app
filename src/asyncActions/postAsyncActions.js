@@ -13,6 +13,6 @@ export const getPostsList =
       const res = await PostDataService.getAll(page)
       dispatch(getPostsListSuccess(res.data))
     } catch (err) {
-      dispatch(getPostsListFailure(err.message))
+      dispatch(getPostsListFailure(err))
     }
   }

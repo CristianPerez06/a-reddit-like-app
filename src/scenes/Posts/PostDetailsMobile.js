@@ -32,10 +32,10 @@ const PostDetailsMobile = (props) => {
   }, [postId])
 
   return (
-    <div className="post-details-mobile">
-      <div className="buttons d-flex justify-content-end">
+    <div className="post-details-mobile w-100">
+      <div className="buttons d-flex justify-content-end m-2">
         <Link to="/posts">
-          <Button color="secondary" className="m-2" disabled={loading}>
+          <Button color="primary" disabled={loading}>
             Go back to list
           </Button>
         </Link>
@@ -43,7 +43,7 @@ const PostDetailsMobile = (props) => {
       {loading && <Loading />}
       {!loading && error && (
         <Alert color="danger" className="pt-3">
-          Oops... something went wrong.
+          Oops... something went wrong. Please refresh the page and try again.
         </Alert>
       )}
       {!loading && !error && <PostDetails post={post} />}

@@ -46,7 +46,7 @@ export default function common(state = initialState, action) {
     case GET_POSTS_LIST_FAILURE:
       return {
         ...state,
-        error: action.payload.error,
+        error: action.payload,
         loading: false,
       }
     case ADD_TO_VIEWED_POSTS_LIST:
@@ -57,10 +57,6 @@ export default function common(state = initialState, action) {
           itemsRead: addToList([...state.data.itemsRead], {
             id: action.payload.id,
           }),
-          // itemsRead: [
-          //   ...state.data.itemsRead,
-          //   { id: action.payload.id }
-          // ]
         },
       }
     case ADD_TO_DISMISSED_POSTS_LIST:
@@ -71,10 +67,6 @@ export default function common(state = initialState, action) {
           itemsDismissed: addToList([...state.data.itemsDismissed], {
             id: action.payload.id,
           }),
-          // itemsDimissed: [
-          //   ...state.data.itemsDimissed,
-          //   { id: action.payload.id }
-          // ]
         },
       }
     case DISMISS_ALL_POSTS:
